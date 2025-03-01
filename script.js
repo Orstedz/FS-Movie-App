@@ -1,16 +1,15 @@
-const url = new URL(location.href); 
-const movieId = url.searchParams.get("id")
-const movieTitle = url.searchParams.get("title")
+const url = new URL(location.href);
+const movieId = url.searchParams.get("id");
+const movieTitle = url.searchParams.get("title");
 
-const APILINK = 'https://review-backend.beaucarnes.repl.co/api/v1/reviews/';
-
+const APILINK = "https://review-backend.beaucarnes.repl.co/api/v1/reviews/";
 
 const main = document.getElementById("section");
 const title = document.getElementById("title");
 
 title.innerText = movieTitle;
 
-const div_new = document.createElement('div');
+const div_new = document.createElement("div");
 div_new.innerHTML = `
   <div class="row">
     <div class="column">
@@ -27,18 +26,19 @@ div_new.innerHTML = `
       </div>
     </div>
   </div>
-`
-main.appendChild(div_new)
+`;
+main.appendChild(div_new);
 
 returnReviews(APILINK);
 
-function returnReviews(url){
-  fetch(url + "movie/" + movieId).then(res => res.json())
-  .then(function(data){
-  console.log(data);
-  data.forEach(review => {
-      const div_card = document.createElement('div');
-      div_card.innerHTML = `
+function returnReviews(url) {
+  fetch(url + "movie/" + movieId)
+    .then((res) => res.json())
+    .then(function (data) {
+      console.log(data);
+      data.forEach((review) => {
+        const div_card = document.createElement("div");
+        div_card.innerHTML = `
           <div class="row">
             <div class="column">
               <div class="card" id="${review._id}">
@@ -48,19 +48,18 @@ function returnReviews(url){
               </div>
             </div>
           </div>
-        `
+        `;
 
-      main.appendChild(div_card);
+        main.appendChild(div_card);
+      });
     });
-  });
 }
 
 function editReview(id, review, user) {
-
   const element = document.getElementById(id);
-  const reviewInputId = "review" + id
-  const userInputId = "user" + id
-  
+  const reviewInputId = "review" + id;
+  const userInputId = "user" + id;
+
   element.innerHTML = `
               <p><strong>Review: </strong>
                 <input type="text" id="${reviewInputId}" value="${review}">
@@ -71,37 +70,39 @@ function editReview(id, review, user) {
               <p><a href="#" onclick="saveReview('${reviewInputId}', '${userInputId}', '${id}',)">💾</a>
               </p>
   
-  `
+  `;
 }
 
-function saveReview(reviewInputId, userInputId, id="") {
+function saveReview(reviewInputId, userInputId, id = "") {
   const review = document.getElementById(reviewInputId).value;
   const user = document.getElementById(userInputId).value;
 
   if (id) {
     fetch(APILINK + id, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({"user": user, "review": review})
-    }).then(res => res.json())
-      .then(res => {
-        console.log(res)
+      body: JSON.stringify({ user: user, review: review }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
         location.reload();
-      });        
+      });
   } else {
     fetch(APILINK + "new", {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({"user": user, "review": review, "movieId": movieId})
-    }).then(res => res.json())
-      .then(res => {
-        console.log(res)
+      body: JSON.stringify({ user: user, review: review, movieId: movieId }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
         location.reload();
       });
   }
@@ -109,10 +110,11 @@ function saveReview(reviewInputId, userInputId, id="") {
 
 function deleteReview(id) {
   fetch(APILINK + id, {
-    method: 'DELETE'
-  }).then(res => res.json())
-    .then(res => {
-      console.log(res)
+    method: "DELETE",
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      console.log(res);
       location.reload();
-    });    
+    });
 }
