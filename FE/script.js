@@ -21,7 +21,7 @@ div_new.innerHTML = `
           <p><strong>User: </strong>
             <input type="text" id="new_user" value="">
           </p>
-          <p><a href="#" onclick="saveReview('new_review', 'new_user')">💾</a>
+          <p><a href="#" onclick="saveReview('new_review', 'new_user')">Save</a>
           </p>
       </div>
     </div>
