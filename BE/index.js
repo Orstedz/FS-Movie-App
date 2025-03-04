@@ -16,7 +16,6 @@ MongoClient.connect(uri, {
   maxPoolSize: 50,
   wtimeoutMS: 2500,
   ssl: true,
-  sslValidate: false, // Only for testing, set to true in production
   useUnifiedTopology: true,
 })
   .catch((err) => {
